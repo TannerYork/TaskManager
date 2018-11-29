@@ -51,13 +51,18 @@ class AddTaskVC: UIViewController {
     
     
     @IBAction func addTask(_ sender: Any) {
-        guard let title = titleTextField.text, titleTextField.text != "", 
+        guard var title = titleTextField.text, titleTextField.text != "",
               let details = detailsTextView.text,
               let date = Formatter.shared.formatStringFromDate(dateDatePicker.date) else {
                 taskCreationError()
                 return
         }
         let formattedDate = Formatter.shared.formatDateFromString(date)
+        for task in SetupValues.shared.tasks {
+            if title == task.title {
+                title.append("~")
+            }
+        }
         
         let newTask = Task(title: title, description: details, priority: priority, completionDate: formattedDate)
         SetupValues.shared.tasks.append(newTask)
