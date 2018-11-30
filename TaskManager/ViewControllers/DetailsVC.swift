@@ -31,7 +31,7 @@ class DetailsVC: UIViewController {
     //Sets up the view based on the task its given 
     func setupView(_ task: Task) {
         taskTitle = task.title
-        taskDetails = task.description
+        taskDetails = task.details
         if task.completionDate != nil {
             taskDate = Formatter.shared.formatStringFromDate(task.completionDate!)
         } else {

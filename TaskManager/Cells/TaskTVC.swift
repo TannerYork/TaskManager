@@ -29,9 +29,9 @@ class TaskTVC: UITableViewCell {
 
     func setupCell(task: Task) {
         taskTitle.text = task.title
-        if task.completionDate != nil {
+        if task.completion != true && task.completionDate != nil {
             taskCompletion.text = formatter.formatStringFromDate(task.completionDate!)
-            if task.completionDate! > Formatter.shared.date {
+            if task.completionDate! < Formatter.shared.date {
                 taskCompletion.textColor = .darkRed
             } else {
                 taskCompletion.textColor = .textBlue

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainVC: UIViewController {
     
@@ -17,6 +18,8 @@ class MainVC: UIViewController {
     
     //Variable to distiguish the current table view loaded: all, completed, not completed.
     var taskList: TaskToList = .all
+    let realm = try! Realm()
+    
     var backgroundColor: UIColor? {
         didSet {
             self.backgroundColor = SetupValues.shared.backgroundColor
@@ -27,8 +30,15 @@ class MainVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        TaskTableView.backgroundColor = SetupValues.shared.backgroundColor
         
+        //RealmSetup
+        let tasks = RealmsManager.sharedInstance.getDataFromRealm()
+        
+        SetupValues.shared.tasks.append(contentsOf: tasks)
+        SetupValues.shared.fillCompleted()
+        SetupValues.shared.fillNotCompleted()
+        
+        TaskTableView.backgroundColor = SetupValues.shared.backgroundColor
         
         //GestureRecognizer for changing the current taskList shown to user
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(sender:)))
@@ -36,8 +46,13 @@ class MainVC: UIViewController {
         
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: Selector("diss:")))
 
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        TaskTableView.reloadData()
     }
     
     //MARK: Actions
@@ -47,7 +62,7 @@ class MainVC: UIViewController {
     
     //Presents an action sheet for user to choose between change background color and edit the location of a task in the table view
     @IBAction func settingsButton(_ sender: Any) {
-        let settingSheet = UIAlertController(title: "Settings", message: "Change background color and task lasyout.", preferredStyle: .actionSheet)
+        let settingSheet = UIAlertController(title: "Settings", message: "Change background color and task lasyout. Also to get to completed and not completed task swipe left on the main screen.", preferredStyle: .actionSheet)
         
         //Segues to change color screen
         let colorButton = UIAlertAction(title: "Colors", style: .default) { (action) in
@@ -60,6 +75,11 @@ class MainVC: UIViewController {
             self.TaskTableView.isEditing = true
             return
         }
+      let dissmis = UIAlertAction(title: "Cancel", style: .cancel) { action in
+        settingSheet.dismiss(animated: true)
+        }
+        
+        settingSheet.addAction(dissmis)
         settingSheet.addAction(colorButton)
         settingSheet.addAction(editButton)
         present(settingSheet, animated: true)
@@ -131,7 +151,7 @@ class MainVC: UIViewController {
         }
     }
     
-
+    
 }
 
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
@@ -214,6 +234,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                 self.TaskTableView.reloadData()
             }
             
+            
         }
         
         let markComplete = UITableViewRowAction(style: .normal, title: "Complete") { (action, indexPath) in
@@ -226,8 +247,19 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             case .notCompleted:
                 task = SetupValues.shared.tasksNotCompleted[indexPath.row]
             }
-            task.completion = true
-            task.completionDate = nil
+            //Creates an updated version of the task and uses the primaryID to add a new task that replaces the old task with new info: completion status
+            var updateTask = Task()
+            updateTask.title = task.title
+            updateTask.completionDate = task.completionDate
+            updateTask.completion = true
+            updateTask.details = task.details
+            updateTask.priority = task.priority
+            updateTask.taskID = task.taskID
+            try! self.realm.write {
+                self.realm.add(updateTask, update: true)
+            }
+            SetupValues.shared.fillCompleted()
+            SetupValues.shared.fillNotCompleted()
             self.TaskTableView.reloadData()
         }
         
@@ -241,8 +273,20 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             case .notCompleted:
                 task = SetupValues.shared.tasksNotCompleted[indexPath.row]
             }
-            task.completion = false
-            task.completionDate = nil
+            
+            //Creates an updated version of the task and uses the primaryID to add a new task that replaces the old task with new info: completion status
+            var updateTask = Task()
+            updateTask.title = task.title
+            updateTask.completionDate = task.completionDate
+            updateTask.completion = false
+            updateTask.details = task.details
+            updateTask.priority = task.priority
+            updateTask.taskID = task.taskID
+            try! self.realm.write {
+                self.realm.add(updateTask, update: true)
+            }
+            SetupValues.shared.fillCompleted()
+            SetupValues.shared.fillNotCompleted()
             self.TaskTableView.reloadData()
         }
         
@@ -278,6 +322,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         case .notCompleted:
             taskToRemove = SetupValues.shared.tasksNotCompleted[indexPathRow]
         }
+        RealmsManager.sharedInstance.deleteFromRealm(object: taskToRemove)
         
         if taskList != .notCompleted {
             for task in SetupValues.shared.tasksNotCompleted {

@@ -8,15 +8,16 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 
 
-class SetupValues: NSObject {
+class SetupValues {
    static let shared = SetupValues()
 
     
     //Value for global background color
-    @objc dynamic var backgroundColor = UIColor(red:0.14, green:0.14, blue:0.14, alpha:1.0)
+    var backgroundColor = UIColor(red:0.14, green:0.14, blue:0.14, alpha:1.0)
     var backgroundRedValue = 0.14
     var backgroundBlueValue = 0.14
     var backgroundGreenValue = 0.14
@@ -39,6 +40,11 @@ class SetupValues: NSObject {
                 tasksCompleted.append(task)
             }
         }
+        for task in tasksCompleted {
+            if task.completion == false {
+                tasksCompleted.remove(at: tasksCompleted.firstIndex(of: task)!)
+            }
+        }
     }
     
     func fillNotCompleted() {
@@ -46,6 +52,11 @@ class SetupValues: NSObject {
         for task in tasks {
             if task.completion == false {
                 tasksNotCompleted.append(task)
+            }
+        }
+        for task in tasksNotCompleted {
+            if task.completion == true {
+                tasksNotCompleted.remove(at: tasksNotCompleted.firstIndex(of: task)!)
             }
         }
     }

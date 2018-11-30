@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AddTaskVC: UIViewController {
 
@@ -16,14 +17,14 @@ class AddTaskVC: UIViewController {
     @IBOutlet weak var dateDatePicker: UIDatePicker!
     @IBOutlet weak var prioritySegmentControl: UISegmentedControl!
     var priority: Int = 1
-    
+    let realm = try! Realm()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = SetupValues.shared.backgroundColor
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: Selector("endEditing:")))
-        // Do any additional setup after loading the view.
     }
     
     //MARK: Acitions
@@ -64,8 +65,13 @@ class AddTaskVC: UIViewController {
             }
         }
         
-        let newTask = Task(title: title, description: details, priority: priority, completionDate: formattedDate)
+        let newTask = Task()
+        newTask.completionDate = formattedDate
+        newTask.details = details
+        newTask.title = title
+        newTask.taskID = "-\(title)-"
         SetupValues.shared.tasks.append(newTask)
+       RealmsManager.sharedInstance.addData(object: newTask)
         navigationController?.popViewController(animated: true)
     }
     

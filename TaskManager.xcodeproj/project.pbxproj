@@ -18,6 +18,7 @@
 		E598839B21ADBE5900A689A0 /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E598839A21ADBE5900A689A0 /* DetailsVC.swift */; };
 		E598839D21ADC4C700A689A0 /* AddTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E598839C21ADC4C700A689A0 /* AddTaskVC.swift */; };
 		E59883A021AF14EE00A689A0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E598839F21AF14ED00A689A0 /* Colors.swift */; };
+		E59883A221B0AFE700A689A0 /* RealmsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59883A121B0AFE600A689A0 /* RealmsManager.swift */; };
 		E5D7980321AC5945009E5C6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D7980221AC5945009E5C6D /* AppDelegate.swift */; };
 		E5D7980821AC5945009E5C6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5D7980621AC5945009E5C6D /* Main.storyboard */; };
 		E5D7980A21AC5947009E5C6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D7980921AC5947009E5C6D /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		E598839A21ADBE5900A689A0 /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
 		E598839C21ADC4C700A689A0 /* AddTaskVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskVC.swift; sourceTree = "<group>"; };
 		E598839F21AF14ED00A689A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		E59883A121B0AFE600A689A0 /* RealmsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmsManager.swift; sourceTree = "<group>"; };
 		E5D797FF21AC5945009E5C6D /* TaskManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D7980221AC5945009E5C6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5D7980721AC5945009E5C6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				E598838721AD899C00A689A0 /* Task.swift */,
 				E598838D21AD8DCB00A689A0 /* DateFormatter.swift */,
+				E59883A121B0AFE600A689A0 /* RealmsManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				E598838E21AD8DCB00A689A0 /* DateFormatter.swift in Sources */,
 				E598839D21ADC4C700A689A0 /* AddTaskVC.swift in Sources */,
 				E598838821AD899C00A689A0 /* Task.swift in Sources */,
+				E59883A221B0AFE700A689A0 /* RealmsManager.swift in Sources */,
 				E5D7980321AC5945009E5C6D /* AppDelegate.swift in Sources */,
 				E598839321AD9E1D00A689A0 /* ViewConrollerExtensions.swift in Sources */,
 				E5D7981621AC5984009E5C6D /* MainVC.swift in Sources */,

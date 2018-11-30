@@ -7,28 +7,17 @@
 //
 
 import Foundation
-class Task {
+import RealmSwift
+
+class Task: Object {
+   @objc dynamic var title = ""
+   @objc dynamic var details  = ""
+   @objc dynamic var priority = 1
+   @objc dynamic var completion = false
+   @objc dynamic var completionDate: Date? = Date()
+   @objc dynamic var taskID = UUID().uuidString
     
-    var title: String
-    var description: String
-    var priority: Int
-    var completion: Bool = false
-    var completionDate: Date?
-    
-    init(title: String, description: String, priority: Int, completionDate: Date?) {
-        self.title = title
-        self.description = description
-        self.priority = priority
-        self.completionDate = completionDate
-        
-        
-        //Keeps the priority from gping over or below the limit
-        if self.priority > 5 {
-            self.priority = 5
-        }
-        if self.priority < 0 {
-            self.priority = 0
-        }
+    override static func primaryKey() -> String? {
+        return "taskID"
     }
-    
 }
