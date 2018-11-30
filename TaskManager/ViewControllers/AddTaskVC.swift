@@ -17,7 +17,6 @@ class AddTaskVC: UIViewController {
     @IBOutlet weak var dateDatePicker: UIDatePicker!
     @IBOutlet weak var prioritySegmentControl: UISegmentedControl!
     var priority: Int = 1
-    let realm = try! Realm()
     
     
     override func viewDidLoad() {
@@ -69,9 +68,11 @@ class AddTaskVC: UIViewController {
         newTask.completionDate = formattedDate
         newTask.details = details
         newTask.title = title
-        newTask.taskID = "-\(title)-"
+        print(newTask.taskID)
         SetupValues.shared.tasks.append(newTask)
+        SetupValues.shared.tasksNotCompleted.append(newTask)
        RealmsManager.sharedInstance.addData(object: newTask)
+        
         navigationController?.popViewController(animated: true)
     }
     

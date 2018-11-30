@@ -84,7 +84,7 @@
                                             <outlet property="priority" destination="GlV-xV-3Dh" id="P9y-jq-t20"/>
                                             <outlet property="taskCompletion" destination="sGu-RT-6bd" id="eRx-8U-ik7"/>
                                             <outlet property="taskTitle" destination="VSu-yY-zdw" id="jIQ-hi-SVB"/>
-                                            <segue destination="j0S-FL-yX3" kind="show" identifier="sendData" id="CTf-fZ-9iI"/>
+                                            <segue destination="j0S-FL-yX3" kind="show" identifier="sendData" id="eoq-Rz-fhc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -161,7 +161,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xt2-26-f4L">
-                                <rect key="frame" x="111.5" y="531" width="152" height="46"/>
+                                <rect key="frame" x="89.5" y="531" width="196.5" height="46"/>
                                 <color key="backgroundColor" red="0.58519572019577026" green="0.6267579197883606" blue="0.66275131702423096" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="46" id="RS6-6S-7pj"/>
@@ -253,7 +253,7 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Priority" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sU8-Sr-VVJ">
-                                <rect key="frame" x="123.5" y="249.5" width="126" height="41.5"/>
+                                <rect key="frame" x="101.5" y="249.5" width="170.5" height="41.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41.5" id="bN9-AJ-qWh"/>
                                 </constraints>
@@ -347,29 +347,6 @@
                                     <action selector="resetColors:" destination="5d0-Eh-AZq" eventType="touchUpInside" id="l16-H1-RE6"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3jN-0I-PpQ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="backgroundColor" red="0.23542706820000001" green="0.2342897394" blue="0.23656439709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" red="0.37647058820000001" green="0.4549019608" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="0.23542706820000001" green="0.2342897394" blue="0.23656439709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="0.37647058820000001" green="0.4549019608" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Settings" id="gD2-VF-Vnj">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="1sf-05-sr2">
-                                            <connections>
-                                                <action selector="cancelChange:" destination="5d0-Eh-AZq" id="hht-Pm-C6S"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Change" id="DoW-xq-cCE">
-                                            <connections>
-                                                <action selector="change:" destination="5d0-Eh-AZq" id="QDl-xD-SNb"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQO-G8-nwN">
                                 <rect key="frame" x="40" y="94" width="295" height="41.5"/>
                                 <fontDescription key="fontDescription" name="Delicious" family="Delicious" pointSize="40"/>
@@ -429,6 +406,29 @@
                                     <constraint firstAttribute="width" constant="200" id="ili-Zc-XTi"/>
                                 </constraints>
                             </stackView>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3jN-0I-PpQ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <color key="backgroundColor" red="0.23542706820000001" green="0.2342897394" blue="0.23656439709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" red="0.37647058820000001" green="0.4549019608" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.23542706820000001" green="0.2342897394" blue="0.23656439709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="0.37647058820000001" green="0.4549019608" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Settings" id="gD2-VF-Vnj">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="1sf-05-sr2">
+                                            <connections>
+                                                <action selector="cancelChange:" destination="5d0-Eh-AZq" id="hht-Pm-C6S"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Change" id="DoW-xq-cCE">
+                                            <connections>
+                                                <action selector="change:" destination="5d0-Eh-AZq" id="QDl-xD-SNb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="0.13725490200000001" green="0.13725490200000001" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -441,7 +441,7 @@
                             <constraint firstItem="VQO-G8-nwN" firstAttribute="leading" secondItem="y5j-0w-Xzy" secondAttribute="leading" constant="40" id="dkm-HE-WgW"/>
                             <constraint firstItem="azd-c2-TtY" firstAttribute="centerX" secondItem="rFb-jj-YCL" secondAttribute="centerX" id="e0b-Dj-kS5"/>
                             <constraint firstItem="y5j-0w-Xzy" firstAttribute="trailing" secondItem="VQO-G8-nwN" secondAttribute="trailing" constant="40" id="hHC-wy-Xbj"/>
-                            <constraint firstItem="3jN-0I-PpQ" firstAttribute="top" secondItem="y5j-0w-Xzy" secondAttribute="top" id="iQx-5D-ZBM"/>
+                            <constraint firstItem="3jN-0I-PpQ" firstAttribute="top" secondItem="y5j-0w-Xzy" secondAttribute="top" constant="-20" id="iQx-5D-ZBM"/>
                             <constraint firstItem="3jN-0I-PpQ" firstAttribute="leading" secondItem="y5j-0w-Xzy" secondAttribute="leading" id="ipA-h8-yP1"/>
                             <constraint firstItem="y5j-0w-Xzy" firstAttribute="trailing" secondItem="xMu-ci-UAL" secondAttribute="trailing" constant="255" id="mhK-vo-9Yl"/>
                             <constraint firstItem="NGr-st-VoW" firstAttribute="width" secondItem="rFb-jj-YCL" secondAttribute="height" multiplier="200:603" constant="-21.22719734660032" id="pLG-LU-nfE"/>
@@ -476,7 +476,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xXK-Rc-JlH">
-                                <rect key="frame" x="20" y="174" width="334" height="148"/>
+                                <rect key="frame" x="20" y="188" width="334" height="148"/>
                                 <color key="backgroundColor" red="0.23542706820000001" green="0.2342897394" blue="0.23656439709999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="148" id="BQ9-f2-cfq"/>
@@ -492,22 +492,30 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x9o-L7-6x5">
-                                <rect key="frame" x="112" y="118.5" width="151" height="47"/>
-                                <fontDescription key="fontDescription" name="Delicious" family="Delicious" pointSize="40"/>
-                                <color key="textColor" red="0.3748624471" green="0.45441732559999998" blue="0.5564579556" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a22-Nz-4Di">
-                                <rect key="frame" x="140.5" y="350" width="94" height="42"/>
+                                <rect key="frame" x="114" y="138.5" width="151" height="41"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="1e9-MJ-C8f"/>
+                                    <constraint firstAttribute="height" constant="41" id="Xpf-2g-mJx"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Delicious" family="Delicious" pointSize="40"/>
                                 <color key="textColor" red="0.3748624471" green="0.45441732559999998" blue="0.5564579556" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jR-8u-4Av">
-                                <rect key="frame" x="117" y="20" width="141" height="36"/>
+                                <rect key="frame" x="20" y="20" width="339" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="2hj-DA-U0s"/>
+                                    <constraint firstAttribute="width" constant="339" id="RMn-hb-vNk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Delicious" family="Delicious" pointSize="40"/>
+                                <color key="textColor" red="0.3748624471" green="0.45441732559999998" blue="0.5564579556" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a22-Nz-4Di">
+                                <rect key="frame" x="18" y="354" width="343" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="1e9-MJ-C8f"/>
+                                    <constraint firstAttribute="width" constant="343" id="urt-7A-Hya"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Delicious" family="Delicious" pointSize="40"/>
                                 <color key="textColor" red="0.3748624471" green="0.45441732559999998" blue="0.5564579556" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -515,18 +523,16 @@
                         </subviews>
                         <color key="backgroundColor" red="0.13725490200000001" green="0.13725490200000001" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="LFH-So-Trj" firstAttribute="bottom" secondItem="a22-Nz-4Di" secondAttribute="bottom" constant="211" id="2LY-Qe-LeY"/>
-                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="x9o-L7-6x5" secondAttribute="trailing" constant="112" id="8aU-e1-g9g"/>
-                            <constraint firstItem="a22-Nz-4Di" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="140.5" id="9jr-Bd-y7l"/>
+                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="x9o-L7-6x5" secondAttribute="trailing" constant="110" id="8aU-e1-g9g"/>
                             <constraint firstItem="xXK-Rc-JlH" firstAttribute="top" secondItem="x9o-L7-6x5" secondAttribute="bottom" constant="8.5" id="R3V-S7-vb8"/>
-                            <constraint firstItem="1jR-8u-4Av" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="117" id="Tfx-tB-z4u"/>
+                            <constraint firstItem="1jR-8u-4Av" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="20" id="Tfx-tB-z4u"/>
                             <constraint firstItem="1jR-8u-4Av" firstAttribute="top" secondItem="LFH-So-Trj" secondAttribute="top" constant="20" id="YCV-ir-HPg"/>
-                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="a22-Nz-4Di" secondAttribute="trailing" constant="140.5" id="eVf-I0-XVs"/>
+                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="a22-Nz-4Di" secondAttribute="trailing" constant="14" id="eVf-I0-XVs"/>
                             <constraint firstItem="xXK-Rc-JlH" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="20" id="lpx-am-6qH"/>
                             <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="xXK-Rc-JlH" secondAttribute="trailing" constant="21" id="pk5-Sb-42Y"/>
-                            <constraint firstItem="a22-Nz-4Di" firstAttribute="top" secondItem="xXK-Rc-JlH" secondAttribute="bottom" constant="28" id="r9W-RK-AcG"/>
-                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="1jR-8u-4Av" secondAttribute="trailing" constant="117" id="tTX-V3-iXH"/>
-                            <constraint firstItem="x9o-L7-6x5" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="112" id="w1g-3f-UQV"/>
+                            <constraint firstItem="a22-Nz-4Di" firstAttribute="top" secondItem="xXK-Rc-JlH" secondAttribute="bottom" constant="18" id="r9W-RK-AcG"/>
+                            <constraint firstItem="LFH-So-Trj" firstAttribute="trailing" secondItem="1jR-8u-4Av" secondAttribute="trailing" constant="16" id="tTX-V3-iXH"/>
+                            <constraint firstItem="x9o-L7-6x5" firstAttribute="leading" secondItem="LFH-So-Trj" secondAttribute="leading" constant="114" id="w1g-3f-UQV"/>
                             <constraint firstItem="x9o-L7-6x5" firstAttribute="top" secondItem="1jR-8u-4Av" secondAttribute="bottom" constant="62.5" id="y08-d1-QBE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LFH-So-Trj"/>

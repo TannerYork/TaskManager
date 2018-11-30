@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import RealmSwift
 
 
 
@@ -52,6 +51,7 @@ class SetupValues {
         for task in tasks {
             if task.completion == false {
                 tasksNotCompleted.append(task)
+                print(task)
             }
         }
         for task in tasksNotCompleted {

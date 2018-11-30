@@ -36,7 +36,7 @@ class RealmsManager {
     }
     
     func deleteFromRealm(object: Task)   {
-        try!   realm.write {
+        try! realm.write {
             realm.delete(object)
         }
     }

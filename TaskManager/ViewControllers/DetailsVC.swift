@@ -27,6 +27,7 @@ class DetailsVC: UIViewController {
         dateLabel.text = taskDate
     }
     
+    //MARK: Actions
     
     //Sets up the view based on the task its given 
     func setupView(_ task: Task) {

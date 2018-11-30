@@ -19,7 +19,7 @@ class MainVC: UIViewController {
     
     //Variable to distiguish the current table view loaded: all, completed, not completed.
     var taskList: TaskToList = .all
-    let realm = try! Realm()
+    let tasks = RealmsManager.sharedInstance.getDataFromRealm()
     
     var backgroundColor: UIColor? {
         didSet {
@@ -33,11 +33,12 @@ class MainVC: UIViewController {
         super.viewDidLoad()
         
         //RealmSetup
-        let tasks = RealmsManager.sharedInstance.getDataFromRealm()
-        
+    
+        print(tasks)
         SetupValues.shared.tasks.append(contentsOf: tasks)
         SetupValues.shared.fillCompleted()
         SetupValues.shared.fillNotCompleted()
+        //print(SetupValues.shared.tasksNotCompleted)
         
         TaskTableView.backgroundColor = SetupValues.shared.backgroundColor
         
@@ -47,7 +48,6 @@ class MainVC: UIViewController {
         
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: Selector("diss:")))
         
         TaskTableView.emptyDataSetSource = self
         TaskTableView.emptyDataSetDelegate = self
@@ -177,13 +177,14 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! TaskTVC
+
         switch taskList {
         case .all:
             cell.setupCell(task: SetupValues.shared.tasks[indexPath.row])
         case .completed:
-            cell.setupCell(task: SetupValues.shared.tasks[indexPath.row])
+            cell.setupCell(task: SetupValues.shared.tasksCompleted[indexPath.row])
         case .notCompleted:
-            cell.setupCell(task: SetupValues.shared.tasks[indexPath.row])
+            cell.setupCell(task: SetupValues.shared.tasksNotCompleted[indexPath.row])
         }
         return cell
     }
@@ -218,27 +219,20 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     //Adds the delete and change completion buttons
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            var task = SetupValues.shared.tasks[indexPath.row]
             switch self.taskList {
             case .all:
-                let task = SetupValues.shared.tasks[indexPath.row]
+                task = SetupValues.shared.tasks[indexPath.row]
                 self.removeTask(task, indexPath.row)
-                SetupValues.shared.tasks.remove(at: indexPath.row)
-                self.TaskTableView.reloadData()
                 
             case .completed:
-                let task = SetupValues.shared.tasksCompleted[indexPath.row]
+                task = SetupValues.shared.tasksCompleted[indexPath.row]
                 self.removeTask(task, indexPath.row)
-                SetupValues.shared.tasksCompleted.remove(at: indexPath.row)
-                self.TaskTableView.reloadData()
                 
             case.notCompleted:
-                let task = SetupValues.shared.tasksNotCompleted[indexPath.row]
+                task = SetupValues.shared.tasksNotCompleted[indexPath.row]
                 self.removeTask(task, indexPath.row)
-                SetupValues.shared.tasksNotCompleted.remove(at: indexPath.row)
-                self.TaskTableView.reloadData()
             }
-            
-            
         }
         
         let markComplete = UITableViewRowAction(style: .normal, title: "Complete") { (action, indexPath) in
@@ -252,18 +246,16 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                 task = SetupValues.shared.tasksNotCompleted[indexPath.row]
             }
             //Creates an updated version of the task and uses the primaryID to add a new task that replaces the old task with new info: completion status
-            var updateTask = Task()
+            let updateTask = Task()
             updateTask.title = task.title
             updateTask.completionDate = task.completionDate
             updateTask.completion = true
             updateTask.details = task.details
             updateTask.priority = task.priority
             updateTask.taskID = task.taskID
-            try! self.realm.write {
-                self.realm.add(updateTask, update: true)
-            }
-            SetupValues.shared.fillCompleted()
-            SetupValues.shared.fillNotCompleted()
+            RealmsManager.sharedInstance.addData(object: updateTask)
+            SetupValues.shared.tasksCompleted.append(task)
+            SetupValues.shared.tasksNotCompleted.remove(at: SetupValues.shared.tasksNotCompleted.firstIndex(of: task)!)
             self.TaskTableView.reloadData()
         }
         
@@ -279,18 +271,18 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             //Creates an updated version of the task and uses the primaryID to add a new task that replaces the old task with new info: completion status
-            var updateTask = Task()
+            let updateTask = Task()
             updateTask.title = task.title
             updateTask.completionDate = task.completionDate
             updateTask.completion = false
             updateTask.details = task.details
             updateTask.priority = task.priority
             updateTask.taskID = task.taskID
-            try! self.realm.write {
-                self.realm.add(updateTask, update: true)
-            }
-            SetupValues.shared.fillCompleted()
-            SetupValues.shared.fillNotCompleted()
+            RealmsManager.sharedInstance.addData(object: updateTask)
+            
+            SetupValues.shared.tasksNotCompleted.append(task)
+            print(SetupValues.shared.tasksCompleted.firstIndex(of: task)!)
+            SetupValues.shared.tasksCompleted.remove(at: SetupValues.shared.tasksCompleted.firstIndex(of: task)!)
             self.TaskTableView.reloadData()
         }
         
@@ -304,68 +296,78 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             task = SetupValues.shared.tasksNotCompleted[indexPath.row]
         }
         
-        switch task?.completion {
-        case true:
-            return [deleteAction, markUncomplete]
-        case false:
-            return [deleteAction, markComplete]
-        default:
-            return [deleteAction]
+        switch taskList {
+        case .all:
+            switch task?.completion {
+            case true:
+                return [deleteAction, markUncomplete]
+            case false:
+                return [deleteAction, markComplete]
+            default:
+                return [deleteAction]
+            }
+        case .completed:
+            switch task?.completion {
+            case true:
+                return [markUncomplete]
+            case false:
+                return [markComplete]
+            default:
+                return [deleteAction]
+            }
+        case .notCompleted:
+            switch task?.completion {
+            case true:
+                return [deleteAction, markUncomplete]
+            case false:
+                return [deleteAction, markComplete]
+            default:
+                return [deleteAction]
+            }
         }
     }
     
     //function to remove a task from all the task lists
-    func removeTask(_ task: Task,_ indexPathRow: Int) {
+    func removeTask(_ task: Task, _ indexPathRow: Int) {
         var taskToRemove: Task
 
         switch taskList {
         case .all:
-            taskToRemove = SetupValues.shared.tasks[indexPathRow]
+            taskToRemove = SetupValues.shared.tasks[SetupValues.shared.tasks.firstIndex(of: task)!]
         case .completed:
-            taskToRemove = SetupValues.shared.tasksCompleted[indexPathRow]
+            taskToRemove = SetupValues.shared.tasksCompleted[SetupValues.shared.tasksCompleted.firstIndex(of: task)!]
         case .notCompleted:
-            taskToRemove = SetupValues.shared.tasksNotCompleted[indexPathRow]
+            taskToRemove = SetupValues.shared.tasksNotCompleted[SetupValues.shared.tasksNotCompleted.firstIndex(of: task)!]
         }
-        RealmsManager.sharedInstance.deleteFromRealm(object: taskToRemove)
         
-        if taskList != .notCompleted {
+      
             for task in SetupValues.shared.tasksNotCompleted {
                 if task.title == taskToRemove.title {
-                    SetupValues.shared.tasksNotCompleted.remove(at: SetupValues.shared.tasksNotCompleted.firstIndex(where: { (taskInArray) -> Bool in
-                        var returnValue: Bool?
-                        if taskInArray.title == task.title {
-                            returnValue = true
-                        }
-                        return returnValue!})!)
+                    SetupValues.shared.tasksNotCompleted.remove(at: SetupValues.shared.tasksNotCompleted.firstIndex(of: task)!)
                 }
             }
-        }
         
-        if taskList != .completed {
             for task in SetupValues.shared.tasksNotCompleted {
                 if task.title == taskToRemove.title {
-                    SetupValues.shared.tasksCompleted.remove(at: SetupValues.shared.tasksCompleted.firstIndex(where: { (taskInArray) -> Bool in
-                        var returnValue: Bool?
-                        if taskInArray.title == task.title {
-                            returnValue = true
-                        }
-                        return returnValue!})!)
+                    SetupValues.shared.tasksCompleted.remove(at: SetupValues.shared.tasksCompleted.firstIndex(of: task)!)
                 }
             }
-        }
         
-        if taskList != .all {
             for task in SetupValues.shared.tasks {
                 if task.title == taskToRemove.title {
-                    SetupValues.shared.tasks.remove(at: SetupValues.shared.tasks.firstIndex(where: { (taskInArray) -> Bool in
-                        var returnValue: Bool?
-                        if taskInArray.title == task.title {
-                            returnValue = true
-                        }
-                        return returnValue!})!)
+                    SetupValues.shared.tasks.remove(at: SetupValues.shared.tasks.firstIndex(of: task)!)
                 }
             }
-        }
+        
+        print("Tasks")
+        print(SetupValues.shared.tasks)
+        print("TaskCompleted")
+        print(SetupValues.shared.tasksCompleted)
+        print("TaskNotComplete")
+        print(SetupValues.shared.tasksNotCompleted)
+        
+        RealmsManager.sharedInstance.deleteFromRealm(object: taskToRemove)
+        TaskTableView.reloadData()
         
     }
     
@@ -399,12 +401,6 @@ extension MainVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
         let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0), NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.paragraphStyle: paragraph]
         
         return NSAttributedString(string: text, attributes: attributes)
-    }
-    
-    func buttonTitle(forEmptyDataSet scrollView: UIScrollView?, for state: UIControl.State) -> NSAttributedString? {
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17.0)]
-        
-        return NSAttributedString(string: "Add Task", attributes: attributes)
     }
     
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView?) -> Bool {

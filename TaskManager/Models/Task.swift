@@ -17,6 +17,7 @@ class Task: Object {
    @objc dynamic var completionDate: Date? = Date()
    @objc dynamic var taskID = UUID().uuidString
     
+    
     override static func primaryKey() -> String? {
         return "taskID"
     }

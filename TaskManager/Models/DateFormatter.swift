@@ -27,7 +27,7 @@ class Formatter {
     }
     
     func formatDateFromString(_ string: String) -> Date? {
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
         guard let date = dateFormatter.date(from: string) else {
             return nil
         }
@@ -35,7 +35,7 @@ class Formatter {
     }
     
     func formatStringFromDate(_ date: Date) -> String? {
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
         let date = dateFormatter.string(from: date)
         return date
     }
