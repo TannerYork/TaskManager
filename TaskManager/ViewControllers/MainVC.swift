@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import DZNEmptyDataSet
 
 class MainVC: UIViewController {
     
@@ -47,6 +48,9 @@ class MainVC: UIViewController {
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: Selector("diss:")))
+        
+        TaskTableView.emptyDataSetSource = self
+        TaskTableView.emptyDataSetDelegate = self
 
 
     }
@@ -365,4 +369,49 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+}
+
+extension MainVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    
+    func image(forEmptyDataSet scrollView: UIScrollView?) -> UIImage? {
+        return UIImage(named: "toDo")
+    }
+    
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView?) -> UIColor? {
+        return SetupValues.shared.backgroundColor
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView?) -> NSAttributedString? {
+        let text = "No Task"
+        
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        return NSAttributedString(string: text, attributes: attributes)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView?) -> NSAttributedString? {
+        let text = ""
+        
+        var paragraph = NSMutableParagraphStyle()
+        paragraph.lineBreakMode = .byWordWrapping
+        paragraph.alignment = .center
+        
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0), NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.paragraphStyle: paragraph]
+        
+        return NSAttributedString(string: text, attributes: attributes)
+    }
+    
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView?, for state: UIControl.State) -> NSAttributedString? {
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17.0)]
+        
+        return NSAttributedString(string: "Add Task", attributes: attributes)
+    }
+    
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView?) -> Bool {
+        return true
+    }
+    
+    func emptyDataSet(_ scrollView: UIScrollView?, didTap button: UIButton?) {
+        self.performSegue(withIdentifier: "segueToAddTask", sender: self)
+    }
 }
