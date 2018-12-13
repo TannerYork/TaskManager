@@ -68,6 +68,7 @@ class AddTaskVC: UIViewController {
         newTask.completionDate = formattedDate
         newTask.details = details
         newTask.title = title
+        newTask.priority = priority
         print(newTask.taskID)
         SetupValues.shared.tasks.append(newTask)
         SetupValues.shared.tasksNotCompleted.append(newTask)
